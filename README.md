@@ -20,6 +20,14 @@ CSS attributes can map to ActiveRecord too:
 
     Article.all(:conditions => { :name => 'hello' })
 
+I'm working on jQuery filters:
+
+    ActionQuery['article:first']
+
+    # vs.
+
+    Article.first
+
 ## Todo
 
 * Pseudo-selectors (map to boolean fields?)
