@@ -20,6 +20,11 @@ describe ActionQuery do
     ActionQuery['comment[name=ok][body=Pretty good]'].should == [@published_comment]
   end
 
+  it "works with quoted strings" do
+    ActionQuery['comment[name=ok][body="Pretty good"]'].should == [@published_comment]
+    ActionQuery["comment[name=ok][body='Pretty good']"].should == [@published_comment]
+  end
+
   it "finds first" do
     ActionQuery['article:first'].should == Article.first
   end

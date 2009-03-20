@@ -45,6 +45,7 @@ class ActionQuery
       @attributes ||= begin
         @selector.scan(/\[(.*)\]/).flatten \
           .map { |str| str.split(%r/=|(\]\[)/) }.flatten \
+          .map { |str| str.gsub(/(\A("|')|("|')\Z)/, '') } \
           .reject { |str| str =~ %r/=|(\]\[)/ }
       end
     end
