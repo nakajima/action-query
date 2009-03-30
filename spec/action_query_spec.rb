@@ -28,4 +28,8 @@ describe ActionQuery do
   it "finds first" do
     ActionQuery['article:first'].should == Article.first
   end
+
+  it "finds by id" do
+    ActionQuery['article#1'].should == [Article.find_by_id(1)]
+  end
 end

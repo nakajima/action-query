@@ -36,10 +36,21 @@ class ActionQuery
     end
 
     def conditions
-      Hash[*attributes]
+      @conditions ||= begin
+        attrs = Hash[*attributes]
+        attrs.merge!(:id => id) if id
+        attrs
+      end
     end
 
     private
+
+    def id
+      @id ||= begin
+        __id__ = @selector.match(/\#(.*)/).to_s
+        __id__ =~ /^\s*$/ ? nil : __id__[1..-1]
+      end
+    end
 
     def attributes
       @attributes ||= begin
@@ -53,9 +64,10 @@ class ActionQuery
 
   def fragments
     @fragments ||= begin
+      ids = '(?:\#.*)'
       attrs = '(?:\[.*\])'
       pseudos = '(?:\:\w+)'
-      @selector.scan(/([a-z_]+(?:#{attrs}|#{pseudos})*)/i).flatten \
+      @selector.scan(/([a-z_]+(?:#{ids}|#{attrs}|#{pseudos})*)/i).flatten \
         .reject { |css| css.blank? } \
         .map { |css| Fragment.new(css.to_s) }
     end
